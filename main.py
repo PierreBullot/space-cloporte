@@ -11,20 +11,14 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
 # --- Joueur ---
-player = pygame.Rect(WIDTH // 2 - SIZE // 2, HEIGHT // 2 - SIZE // 2, SIZE, SIZE)
+player = pygame.Rect(0 + SIZE // 2, HEIGHT // 2 - SIZE // 2, SIZE, SIZE)
 
 # Chargement de l’image
 player_img = pygame.image.load("./images/player.jpg").convert_alpha()
 player_img = pygame.transform.scale(player_img, (SIZE, SIZE))  # Redimensionner à la taille du joueur
 
 # --- Murs ---
-walls = [
-    pygame.Rect(150, 80, 500, 24),
-    pygame.Rect(150, 380, 500, 24),
-    pygame.Rect(150, 80, 24, 324),
-    pygame.Rect(626, 80, 24, 324),
-    pygame.Rect(300, 210, 200, 24),
-]
+walls = []
 
 def clamp(r):
     r.left = max(0, r.left); r.top = max(0, r.top)
