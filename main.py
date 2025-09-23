@@ -19,11 +19,16 @@ player = pygame.Rect(0 + SIZE // 2, HEIGHT // 2 - SIZE // 2, SIZE, SIZE)
 # Chargement de l’image
 player_image = pygame.image.load("./images/player.jpg").convert_alpha()
 player_image = pygame.transform.scale(player_image, (SIZE, SIZE))  # Redimensionner à la taille du joueur
-image_angle = 0
 
+# Gestion de la vitesse
 speed = 0
+image_angle = 0     # Utilisé pour faire tourner le joueur
 speed_unit = "mm/s"
 speed_meter = my_font.render('Speed : 0', False, (0, 0, 0))
+
+# Compétences
+dash_cooldown = 1
+dash_cooldown_status = 0
 
 # --- Fonctions ---
 def rotate_player():
@@ -42,7 +47,8 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
-          if event.key == pygame.K_f:
+          if event.key == pygame.K_f and dash_cooldown_status <= 0:
+              dash_cooldown_status = dash_cooldown
               speed = speed * 1.5 + 1
               speed_meter = my_font.render(f"Speed : {speed} {speed_unit}", False, (0, 0, 0))
 
@@ -51,6 +57,9 @@ while running:
     if image_angle < -360:
         image_angle %= 360
     rotated_player_img, player_position = rotate_player()
+
+    # COMPETENCES
+    dash_cooldown_status -= dt
 
     # DESSIN
     screen.fill(BG)
