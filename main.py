@@ -7,8 +7,11 @@ BG = "sky blue"; WCOLOR = (200,80,80)
 SIZE, SPEED = 120, 220
 
 pygame.init()
+pygame.font.init()
+
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
+my_font = pygame.font.SysFont('Arial', 30)
 
 # --- Joueur ---
 player = pygame.Rect(0 + SIZE // 2, HEIGHT // 2 - SIZE // 2, SIZE, SIZE)
@@ -16,6 +19,9 @@ player = pygame.Rect(0 + SIZE // 2, HEIGHT // 2 - SIZE // 2, SIZE, SIZE)
 # Chargement de l’image
 player_img = pygame.image.load("./images/player.jpg").convert_alpha()
 player_img = pygame.transform.scale(player_img, (SIZE, SIZE))  # Redimensionner à la taille du joueur
+
+speed = 0
+speed_meter = my_font.render('Speed : 0', False, (0, 0, 0))
 
 # --- Murs ---
 walls = []
@@ -60,6 +66,7 @@ while running:
     for w in walls:
         pygame.draw.rect(screen, WCOLOR, w)
     screen.blit(player_img, player.topleft)  # On dessine l’image à la position du joueur
+    screen.blit(speed_meter, (0, 0))
     pygame.display.flip()
 
 pygame.quit(); sys.exit()
