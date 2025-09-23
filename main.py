@@ -1,28 +1,29 @@
-import pygame as pg, sys
+import pygame
+import sys
 
 # --- Config ---
 WIDTH, HEIGHT, FPS = 800, 480, 60
 BG = (24,26,32); WCOLOR = (200,80,80)
 SIZE, SPEED = 36, 220
 
-pg.init()
-screen = pg.display.set_mode((WIDTH, HEIGHT))
-clock = pg.time.Clock()
+pygame.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+clock = pygame.time.Clock()
 
 # --- Joueur ---
-player = pg.Rect(WIDTH//2 - SIZE//2, HEIGHT//2 - SIZE//2, SIZE, SIZE)
+player = pygame.Rect(WIDTH // 2 - SIZE // 2, HEIGHT // 2 - SIZE // 2, SIZE, SIZE)
 
 # Chargement de l’image
-player_img = pg.image.load("C:/Users/Thomas/Downloads/player_pygame.png").convert_alpha()
-player_img = pg.transform.scale(player_img, (SIZE, SIZE))  # Redimensionner à la taille du joueur
+player_img = pygame.image.load("C:/Users/Thomas/Downloads/player_pygame.png").convert_alpha()
+player_img = pygame.transform.scale(player_img, (SIZE, SIZE))  # Redimensionner à la taille du joueur
 
 # --- Murs ---
 walls = [
-    pg.Rect(150, 80, 500, 24),
-    pg.Rect(150, 380, 500, 24),
-    pg.Rect(150, 80, 24, 324),
-    pg.Rect(626, 80, 24, 324),
-    pg.Rect(300, 210, 200, 24),
+    pygame.Rect(150, 80, 500, 24),
+    pygame.Rect(150, 380, 500, 24),
+    pygame.Rect(150, 80, 24, 324),
+    pygame.Rect(626, 80, 24, 324),
+    pygame.Rect(300, 210, 200, 24),
 ]
 
 def clamp(r):
@@ -47,14 +48,14 @@ def move_and_collide(r, dx, dy, speed, dt, walls):
 running = True
 while running:
     dt = clock.tick(FPS) / 1000.0
-    for e in pg.event.get():
-        if e.type == pg.QUIT:
+    for e in pygame.event.get():
+        if e.type == pygame.QUIT:
             running = False
 
     # INPUT
-    k = pg.key.get_pressed()
-    dx = (k[pg.K_RIGHT] or k[pg.K_d]) - (k[pg.K_LEFT] or k[pg.K_q])
-    dy = (k[pg.K_DOWN]  or k[pg.K_s]) - (k[pg.K_UP]   or k[pg.K_z])
+    k = pygame.key.get_pressed()
+    dx = (k[pygame.K_RIGHT] or k[pygame.K_d]) - (k[pygame.K_LEFT] or k[pygame.K_q])
+    dy = (k[pygame.K_DOWN] or k[pygame.K_s]) - (k[pygame.K_UP] or k[pygame.K_z])
 
     # LOGIQUE
     move_and_collide(player, dx, dy, SPEED, dt, walls)
@@ -63,8 +64,8 @@ while running:
     # DESSIN
     screen.fill(BG)
     for w in walls:
-        pg.draw.rect(screen, WCOLOR, w)
+        pygame.draw.rect(screen, WCOLOR, w)
     screen.blit(player_img, player.topleft)  # On dessine l’image à la position du joueur
-    pg.display.flip()
+    pygame.display.flip()
 
-pg.quit(); sys.exit()
+pygame.quit(); sys.exit()
