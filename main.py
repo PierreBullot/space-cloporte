@@ -47,10 +47,13 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
-          if event.key == pygame.K_f and dash_cooldown_status <= 0:
-              dash_cooldown_status = dash_cooldown
-              speed = speed * 1.5 + 1
-              speed_meter = my_font.render(f"Speed : {speed} {speed_unit}", False, (0, 0, 0))
+            if event.key == pygame.K_f:
+                if dash_cooldown_status <= 0:
+                    speed = speed * (1.5 + dash_cooldown_status / 10) + 1
+                    dash_cooldown_status = dash_cooldown
+                    speed_meter = my_font.render(f"Speed : {speed} {speed_unit}", False, (0, 0, 0))
+                else:
+                    speed = speed * (0.9 - dash_cooldown_status / 5)
 
     # MOUVEMENT
     image_angle -= speed
