@@ -28,9 +28,13 @@ speed_meter = my_font.render('Speed : 0', False, (0, 0, 0))
 running = True
 while running:
     dt = clock.tick(FPS) / 1000.0
-    for e in pygame.event.get():
-        if e.type == pygame.QUIT:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+          if event.key == pygame.K_f:
+              speed += 1
+              speed_meter = my_font.render(f"Speed : {speed}", False, (0, 0, 0))
 
     # INPUT
     k = pygame.key.get_pressed()
