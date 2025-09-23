@@ -3,7 +3,7 @@ import sys
 
 # --- Config ---
 WIDTH, HEIGHT, FPS = 1200, 720, 60
-BG = "sky blue"; WCOLOR = (200,80,80)
+BG = "sky blue"
 SIZE, SPEED = 120, 220
 
 pygame.init()
@@ -22,6 +22,7 @@ player_image = pygame.transform.scale(player_image, (SIZE, SIZE))  # Redimension
 image_angle = 0
 
 speed = 0
+speed_unit = "mm/s"
 speed_meter = my_font.render('Speed : 0', False, (0, 0, 0))
 
 # --- Fonctions ---
@@ -42,8 +43,8 @@ while running:
             running = False
         if event.type == pygame.KEYDOWN:
           if event.key == pygame.K_f:
-              speed += 1
-              speed_meter = my_font.render(f"Speed : {speed}", False, (0, 0, 0))
+              speed = speed * 1.5 + 1
+              speed_meter = my_font.render(f"Speed : {speed} {speed_unit}", False, (0, 0, 0))
 
     # MOUVEMENT
     image_angle -= speed
