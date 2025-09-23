@@ -17,12 +17,21 @@ my_font = pygame.font.SysFont('Arial', 30)
 player = pygame.Rect(0 + SIZE // 2, HEIGHT // 2 - SIZE // 2, SIZE, SIZE)
 
 # Chargement de l’image
-player_img = pygame.image.load("./images/player.jpg").convert_alpha()
-player_img = pygame.transform.scale(player_img, (SIZE, SIZE))  # Redimensionner à la taille du joueur
+player_image = pygame.image.load("./images/player.jpg").convert_alpha()
+player_image = pygame.transform.scale(player_image, (SIZE, SIZE))  # Redimensionner à la taille du joueur
+image_angle = 0
 
 speed = 0
 speed_meter = my_font.render('Speed : 0', False, (0, 0, 0))
 
+# --- Fonctions ---
+def rotate_player():
+    rotated_image = pygame.transform.rotate(player_image, image_angle)
+    # La nouvelle image n'a pas la même taille, donc les coordonnées doivent être ajustées.
+    # Détails : https://stackoverflow.com/questions/4183208/how-do-i-rotate-an-image-around-its-center-using-pygame
+    rotated_player_position = rotated_image.get_rect(center=player_image.get_rect(topleft=player.topleft).center)
+
+    return rotated_image, rotated_player_position
 
 # --- Boucle principale ---
 running = True
@@ -36,13 +45,15 @@ while running:
               speed += 1
               speed_meter = my_font.render(f"Speed : {speed}", False, (0, 0, 0))
 
-    # INPUT
-    k = pygame.key.get_pressed()
-
+    # MOUVEMENT
+    image_angle -= speed
+    if image_angle < -360:
+        image_angle %= 360
+    rotated_player_img, player_position = rotate_player()
 
     # DESSIN
     screen.fill(BG)
-    screen.blit(player_img, player.topleft)  # On dessine l’image à la position du joueur
+    screen.blit(rotated_player_img, player_position)  # On dessine l’image à la position du joueur
     screen.blit(speed_meter, (0, 0))
     pygame.display.flip()
 
