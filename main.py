@@ -2,9 +2,9 @@ import pygame
 import sys
 
 # --- Config ---
-WIDTH, HEIGHT, FPS = 800, 480, 60
-BG = (24,26,32); WCOLOR = (200,80,80)
-SIZE, SPEED = 36, 220
+WIDTH, HEIGHT, FPS = 1200, 720, 60
+BG = "sky blue"; WCOLOR = (200,80,80)
+SIZE, SPEED = 120, 220
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -14,7 +14,7 @@ clock = pygame.time.Clock()
 player = pygame.Rect(WIDTH // 2 - SIZE // 2, HEIGHT // 2 - SIZE // 2, SIZE, SIZE)
 
 # Chargement de l’image
-player_img = pygame.image.load("C:/Users/Thomas/Downloads/player_pygame.png").convert_alpha()
+player_img = pygame.image.load("./images/player.jpg").convert_alpha()
 player_img = pygame.transform.scale(player_img, (SIZE, SIZE))  # Redimensionner à la taille du joueur
 
 # --- Murs ---
