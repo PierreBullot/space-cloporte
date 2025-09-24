@@ -1,5 +1,9 @@
-"""Configuration varriables"""
+"""Configuration variables"""
 
-WIDTH, HEIGHT, FPS = 1200, 720, 60
-BG = "sky blue"
-SIZE, SPEED = 120, 220
+SCREEN_WIDTH = 1200
+SCREEN_HEIGHT = 720
+FPS = 60
+BACKGROUND = "sky blue"
+
+PLAYER_SIZE = 120
+PLAYER_SPRITE_PATH = "./images/player.jpg"

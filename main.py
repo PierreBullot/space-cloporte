@@ -6,13 +6,13 @@ import config
 
 pygame.init()
 
-screen = pygame.display.set_mode((config.WIDTH, config.HEIGHT))
+screen = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 
 
-player_rectangle = pygame.Rect(0 + SIZE // 2, HEIGHT // 2 - SIZE // 2, SIZE, SIZE)
-player_sprite = pygame.image.load("./images/player.jpg").convert_alpha()
-player_sprite = pygame.transform.scale(player_sprite, (SIZE, SIZE))  # Redimensionner à la taille du joueur
+player_rectangle = pygame.Rect(0 + config.PLAYER_SIZE // 2, config.SCREEN_HEIGHT // 2 - config.PLAYER_SIZE // 2, config.PLAYER_SIZE, config.PLAYER_SIZE)
+player_sprite = pygame.image.load(config.PLAYER_SPRITE_PATH).convert_alpha()
+player_sprite = pygame.transform.scale(player_sprite, (config.PLAYER_SIZE, config.PLAYER_SIZE))  # Redimensionner à la taille du joueur
 player = character.Player(player_rectangle, player_sprite)
 
 # --- Boucle principale ---
@@ -30,7 +30,7 @@ while running:
     player.handle_cooldown()
 
     # DESSIN
-    screen.fill(BG)
+    screen.fill(config.BACKGROUND)
     screen.blit(player.rotated_sprite, player.rotated_position)  # On dessine l’image à la position du joueur
     screen.blit(player.speed_meter, (0, 0))
     pygame.display.flip()
