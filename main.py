@@ -8,11 +8,9 @@ BG = "sky blue"
 SIZE, SPEED = 120, 220
 
 pygame.init()
-pygame.font.init()
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
-my_font = pygame.font.SysFont('Arial', 30)
 
 
 # --- Boucle principale ---
@@ -31,8 +29,8 @@ while running:
 
     # DESSIN
     screen.fill(BG)
-    screen.blit(rotated_player_img, player_position)  # On dessine l’image à la position du joueur
-    screen.blit(speed_meter, (0, 0))
+    screen.blit(player.rotated_player_img, player.player_position)  # On dessine l’image à la position du joueur
+    screen.blit(player.speed_meter, (0, 0))
     pygame.display.flip()
 
 pygame.quit(); sys.exit()
