@@ -1,7 +1,13 @@
-import pygame
+# import pygame
 
-pygame.font.init()
-my_font = pygame.font.SysFont('Arial', 30)
-speed_unit = "mm/s"
-speed_meter = my_font.render('Speed : 0', False, (0, 0, 0))
-speed_meter = my_font.render(f"Speed : {speed} {speed_unit}", False, (0, 0, 0))
+
+class Interface:
+    def __init__(self, font, target_player, speed_unit, speed_color):
+        self.font = font
+        self.speed_unit = speed_unit
+        self.speed_meter = None
+        self.speed_color = speed_color
+        self.followed_player = target_player
+
+    def render_speed(self):
+        self.speed_meter = self.font.render(f"Speed : {self.followed_player.speed} {self.speed_unit}", False, self.speed_color)

@@ -25,16 +25,17 @@ class Player:
 
     def update_speed(self):
         self.speed = self.skills["dash"].use_skill(self.speed)
+        self.speed = round(self.speed, 2)
 
-    def handle_cooldowns(self):
-        for skill in self.skills:
-            skill.reduce_cooldown()
+    def handle_cooldowns(self, current_time):
+        for skill in self.skills.values():
+            skill.reduce_cooldown(current_time)
 
 
 class Skill:
     def __init__(self, cooldown):
         self.cooldown = cooldown
-        self.cooldown_status = None
+        self.cooldown_status = 0
 
     def use_skill(self, initial_speed):
         pass
