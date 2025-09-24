@@ -26,11 +26,26 @@ class Player:
     def update_speed(self):
         self.speed = self.skills["dash"].use_skill(self.speed)
 
+    def handle_cooldowns(self):
+        for skill in self.skills:
+            skill.reduce_cooldown()
 
-class Dash:
+
+class Skill:
     def __init__(self, cooldown):
         self.cooldown = cooldown
         self.cooldown_status = None
+
+    def use_skill(self, initial_speed):
+        pass
+
+    def reduce_cooldown(self, time):
+        pass
+
+
+class Dash(Skill):
+    def __init__(self, cooldown):
+        super().__init__(cooldown)
 
     def use_skill(self, initial_speed):
         if self.cooldown_status <= 0:
@@ -43,12 +58,3 @@ class Dash:
 
     def reduce_cooldown(self, time):
         self.cooldown_status -= time
-
-# --- Joueur ---
-player = pygame.Rect(0 + SIZE // 2, HEIGHT // 2 - SIZE // 2, SIZE, SIZE)
-
-# Chargement de l’image
-player_image = pygame.image.load("./images/player.jpg").convert_alpha()
-player_image = pygame.transform.scale(player_image, (SIZE, SIZE))  # Redimensionner à la taille du joueur
-
-

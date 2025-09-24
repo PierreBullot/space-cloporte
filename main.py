@@ -27,7 +27,7 @@ while running:
                 player.update_speed()
 
     player.rotate()
-    player.handle_cooldown()
+    player.handle_cooldowns()
 
     # DESSIN
     screen.fill(config.BACKGROUND)
