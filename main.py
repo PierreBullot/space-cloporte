@@ -1,22 +1,19 @@
 import pygame
 import sys
 import player
+import config
 
-# --- Config ---
-WIDTH, HEIGHT, FPS = 1200, 720, 60
-BG = "sky blue"
-SIZE, SPEED = 120, 220
 
 pygame.init()
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((config.WIDTH, config.HEIGHT))
 clock = pygame.time.Clock()
 
 
 # --- Boucle principale ---
 running = True
 while running:
-    dt = clock.tick(FPS) / 1000.0
+    dt = clock.tick(config.FPS) / 1000.0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
