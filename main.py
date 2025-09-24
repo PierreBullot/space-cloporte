@@ -10,6 +10,9 @@ screen = pygame.display.set_mode((config.WIDTH, config.HEIGHT))
 clock = pygame.time.Clock()
 
 
+player_rectangle = pygame.Rect(0 + SIZE // 2, HEIGHT // 2 - SIZE // 2, SIZE, SIZE)
+
+
 # --- Boucle principale ---
 running = True
 while running:
