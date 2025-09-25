@@ -18,6 +18,7 @@ player_rectangle = pygame.Rect(0 + config.PLAYER_SIZE // 2, config.SCREEN_HEIGHT
 player_sprite = pygame.image.load(config.PLAYER_SPRITE_PATH).convert_alpha()
 player_sprite = pygame.transform.scale(player_sprite, (config.PLAYER_SIZE, config.PLAYER_SIZE))  # Redimensionner à la taille du joueur
 player = character.Player(player_rectangle, player_sprite)
+
 player.skills["dash"] = character.Dash(config.INITIAL_DASH_COOLDOWN)
 
 my_font = pygame.font.SysFont('Arial', 30)
@@ -28,6 +29,11 @@ game_interface.interface_elements["speed_meter"] = interface.SpeedMeter(player,
                                                                         config.INITIAL_SPEED_UNIT,
                                                                         config.INITIAL_SPEED_COLOR
                                                                         )
+game_interface.interface_elements["dash_bar"] = interface.SkillStatus(player.skills["dash"],
+                                                                      config.DASH_BAR_POSITION,
+                                                                      config.DASH_BAR_LENGTH,
+                                                                      config.DASH_BAR_HEIGHT
+                                                                      )
 
 
 # --- Boucle principale ---
