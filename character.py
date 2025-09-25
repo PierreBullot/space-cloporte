@@ -56,7 +56,10 @@ class Dash(Skill):
 
     def use_skill(self, initial_speed):
         if self.cooldown_status <= 0:
-            dashed_speed = initial_speed * (1.5 + self.cooldown_status / 10) + 1
+            speed_multiplier = 1.5 + self.cooldown_status / 10
+            if speed_multiplier < 0.1:
+                speed_multiplier = 0.1
+            dashed_speed = initial_speed * speed_multiplier + 1
             self.cooldown_status = self.cooldown
         else:
             dashed_speed = initial_speed * (0.9 - self.cooldown_status / 5)
