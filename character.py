@@ -33,6 +33,11 @@ class Player:
 
 
 class Skill:
+    """
+    Classe de base contenant les éléments communs à toutes les compétences.
+
+    Elle ne peut pas être utilisée tel quel, elle doit être dérivée.
+    """
     def __init__(self, cooldown):
         self.cooldown = cooldown
         self.cooldown_status = 0
@@ -45,6 +50,7 @@ class Skill:
 
 
 class Dash(Skill):
+    """Compétence de mouvement basée sur la classe Skill."""
     def __init__(self, cooldown):
         super().__init__(cooldown)
 

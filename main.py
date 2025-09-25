@@ -18,7 +18,13 @@ player = character.Player(player_rectangle, player_sprite)
 player.skills["dash"] = character.Dash(config.INITIAL_DASH_COOLDOWN)
 
 my_font = pygame.font.SysFont('Arial', 30)
-game_interface = interface.Interface(my_font, player, config.INITIAL_SPEED_UNIT, config.INITIAL_SPEED_COLOR)
+game_interface = interface.Interface(screen, my_font)
+
+game_interface.interface_elements["speed_meter"] = interface.SpeedMeter(player,
+                                                                        config.SPEED_METER_POSITION,
+                                                                        config.INITIAL_SPEED_UNIT,
+                                                                        config.INITIAL_SPEED_COLOR
+                                                                        )
 
 # --- Boucle principale ---
 running = True
@@ -34,12 +40,10 @@ while running:
     player.rotate()
     player.handle_cooldowns(delta_time)
 
-    game_interface.render_speed()
-
     # DESSIN
     screen.fill(config.BACKGROUND_COLOR)
     screen.blit(player.rotated_sprite, player.rotated_position)  # On dessine l’image à la position du joueur
-    screen.blit(game_interface.speed_meter, (0, 0))
+    game_interface.render_elements()
     pygame.display.flip()
 
 pygame.quit(); sys.exit()
