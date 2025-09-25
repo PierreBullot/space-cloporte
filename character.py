@@ -25,7 +25,6 @@ class Player:
 
     def update_speed(self):
         self.speed = self.skills["dash"].use_skill(self.speed)
-        self.speed = round(self.speed, 2)
 
     def handle_cooldowns(self, current_time):
         for skill in self.skills.values():

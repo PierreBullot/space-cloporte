@@ -26,7 +26,7 @@ game_interface = interface.Interface(screen, my_font)
 
 game_interface.interface_elements["speed_meter"] = interface.SpeedMeter(player,
                                                                         config.SPEED_METER_POSITION,
-                                                                        config.INITIAL_SPEED_UNIT,
+                                                                        config.SPEED_UNITS,
                                                                         config.INITIAL_SPEED_COLOR
                                                                         )
 game_interface.interface_elements["dash_bar"] = interface.SkillStatus(player.skills["dash"],

@@ -10,7 +10,7 @@ PLAYER_SPRITE_PATH = "./images/player.jpg"
 INITIAL_DASH_COOLDOWN = 1
 
 SPEED_METER_POSITION = (0, 0)
-INITIAL_SPEED_UNIT = "mm/s"
+SPEED_UNITS = {"1": "mm/s", "1000": "m/s", "1000000": "km/s"}
 INITIAL_SPEED_COLOR = "black"
 
 DASH_BAR_POSITION = (10, 690)
