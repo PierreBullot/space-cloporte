@@ -21,6 +21,7 @@ class MovingBackground:
 
     def update(self, deltax:int = 0, deltay:int = 0):
         """"update background with possible movement, as if you moved delta in a direction, now with wrapping !"""
+        if deltax > 1000:       deltax = 1000   # Game crashes if deltax too big.
         self.posx -= deltax;     self.xpos_clonex -= deltax
         self.posy -= deltay;     self.ypos_cloney -= deltay
 

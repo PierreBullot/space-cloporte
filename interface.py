@@ -31,20 +31,17 @@ class SpeedMeter(InterfaceElement):
         super().__init__(position, text_color=text_color)
         self.followed_player = target_player
         self.speed_units = speed_units
-        self.speed_factor = 1
 
     def update(self):
-        if self.followed_player.speed / self.speed_factor > 1000:
-            self.speed_factor *= 1000
-            if self.speed_factor > 1000000: self.speed_factor = 1000000
-        elif self.followed_player.speed / self.speed_factor < 1:
-            self.speed_factor /= 1000
-            if self.speed_factor < 1: self.speed_factor = 1
+        if self.followed_player.speed_factor > 1000000:
+            speed_unit = self.speed_units["1000000"]
+            displayed_speed = self.followed_player.speed * (self.followed_player.speed_factor / 1000000)
+        else:
+            displayed_speed = self.followed_player.speed
+            speed_unit = self.speed_units[str(self.followed_player.speed_factor)]
 
-        factored_speed = self.followed_player.speed / self.speed_factor
-        factored_speed = round(factored_speed, 2)
-        speed_unit = self.speed_units[str(self.speed_factor)]
-        self.text = f"Speed : {factored_speed} {speed_unit}"
+        displayed_speed = round(displayed_speed, 2)
+        self.text = f"Speed : {displayed_speed} {speed_unit}"
 
     def render(self, target_surface, target_font):
         rendered_meter = target_font.render(self.text, False, self.text_color)

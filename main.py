@@ -53,7 +53,7 @@ while running:
     # DESSIN
         # background
     screen.fill(config.BACKGROUND_COLOR)
-    background.update(deltax=player.speed)
+    background.update(deltax=player.speed * player.speed_factor)
     background.render(surf=screen)
 
     screen.blit(player.rotated_sprite, player.rotated_position)  # On dessine l’image à la position du joueur

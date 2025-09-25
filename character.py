@@ -9,10 +9,11 @@ class Player:
         self.rotated_sprite = sprite
         self.rotated_position = None
         self.speed = 0
+        self.speed_factor = 1
         self.skills = {}
 
     def rotate(self):
-        self.sprite_angle -= self.speed
+        self.sprite_angle -= self.speed * self.speed_factor
         if self.sprite_angle < -360:
             self.sprite_angle %= 360
         self.rotate_sprite()
@@ -25,6 +26,13 @@ class Player:
 
     def update_speed(self):
         self.speed = self.skills["dash"].use_skill(self.speed)
+        if self.speed > 1000:
+            self.speed /= 1000
+            self.speed_factor *= 1000
+        elif self.speed < 1 and self.speed_factor >= 1000:
+            self.speed *= 1000
+            self.speed_factor = int(self.speed_factor / 1000)
+
 
     def handle_cooldowns(self, current_time):
         for skill in self.skills.values():
