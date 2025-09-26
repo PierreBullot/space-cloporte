@@ -25,6 +25,15 @@ class Player:
         # La nouvelle image n'a pas la même taille, donc les coordonnées doivent être ajustées.
         # Détails : https://stackoverflow.com/questions/4183208/how-do-i-rotate-an-image-around-its-center-using-pygame
         self.rotated_position = self.rotated_sprite.get_rect(center=self.sprite.get_rect(topleft=self.rectangle.topleft).center)
+        if self.speed * self.speed_factor > 10:
+            self.add_acceleration_effect()
+
+    def add_acceleration_effect(self):
+        time_since_dashing = 1 - self.skills["dash"].cooldown_status
+        if time_since_dashing < 0.2:
+            self.rotated_position[0] +=  self.rectangle.width / 2 * time_since_dashing
+        elif time_since_dashing < 1:
+            self.rotated_position[0] += self.rectangle.width / 2 * (1 - time_since_dashing)
 
     def update_speed(self):
         self.speed = self.skills["dash"].use_skill(self.speed)
