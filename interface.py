@@ -15,6 +15,11 @@ class Interface:
 
 
 class InterfaceElement:
+    """
+    Classe de base contenant les éléments communs à tous les éléments d'interface.
+
+    Elle ne peut pas être utilisée tel quel, elle doit être dérivée.
+    """
     def __init__(self, position, text_color="black"):
         self.position = position
         self.text = ""
@@ -28,6 +33,7 @@ class InterfaceElement:
 
 
 class SpeedMeter(InterfaceElement):
+    """Class used to display the player's speed."""
     def __init__(self, target_player, position, speed_units, text_color):
         super().__init__(position, text_color=text_color)
         self.followed_player = target_player
@@ -50,6 +56,7 @@ class SpeedMeter(InterfaceElement):
 
 
 class SpeedMax(InterfaceElement):
+    """Class used to display the player's maximum speed reached."""
     def __init__(self, target_player, position, speed_units, text_color):
         super().__init__(position, text_color=text_color)
         self.followed_player = target_player
@@ -72,6 +79,7 @@ class SpeedMax(InterfaceElement):
 
 
 class SkillStatus(InterfaceElement):
+    """Class used to display a skill's status"""
     def __init__(self, target_skill, position, length, height):
         super().__init__(position)
         self.followed_skill = target_skill
@@ -136,8 +144,6 @@ class SkillStatus(InterfaceElement):
                                               self.length,
                                               self.height
                                               )
-
-
 
     def render(self, target_surface, target_font):
         rendered_skill_name = target_font.render(self.text, False, self.text_color)
