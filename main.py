@@ -34,10 +34,10 @@ game_interface.interface_elements["speed_meter"] = interface.SpeedMeter(player,
                                                                         config.INITIAL_SPEED_COLOR
                                                                         )
 secondary_interface.interface_elements["speed_maximum"] = interface.SpeedMax(player,
-                                                                        config.SPEED_MAX_POSITION,
-                                                                        config.SPEED_UNITS,
-                                                                        config.INITIAL_SPEED_COLOR
-                                                                        )
+                                                                             config.SPEED_MAX_POSITION,
+                                                                             config.SPEED_UNITS,
+                                                                             config.INITIAL_SPEED_COLOR
+                                                                             )
 game_interface.interface_elements["dash_bar"] = interface.SkillStatus(player.skills["dash"],
                                                                       config.DASH_BAR_POSITION,
                                                                       config.DASH_BAR_LENGTH,
@@ -54,7 +54,7 @@ sound_barrier = obstacles.SoundBarrier(sound_barrier_rectangle, sound_barrier_sp
 # --- Boucle principale ---
 running = True
 while running:
-    delta_time = clock.tick(config.FPS) / 1000.0
+    delta_time = clock.tick(config.FPS) / 1000.0    # Keeps track of time.
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -62,20 +62,25 @@ while running:
             if event.key == pygame.K_f:
                 player.dash()
 
+    # PLAYER
     player.simulate_drag()
     player.rotate()
     player.handle_cooldowns(delta_time)
 
+    # OBSTACLES
     sound_barrier.update_position(player.speed * player.speed_factor)
 
-    # DESSIN
+    # DISPLAY
         # background
     screen.fill(config.BACKGROUND_COLOR)
     background.update(deltax=player.speed * player.speed_factor)
     background.render(surf=screen)
 
-    screen.blit(player.rotated_sprite, player.rotated_position)  # On dessine l’image à la position du joueur
-    screen.blit(sound_barrier.sprite, sound_barrier.rectangle)  # On dessine l’image à la position du joueur
+        # moving elements
+    screen.blit(player.rotated_sprite, player.rotated_position)     # Displays the player.
+    screen.blit(sound_barrier.sprite, sound_barrier.rectangle)      # Displays the sound barrier.
+
+        # user interface
     game_interface.render_elements()
     secondary_interface.render_elements()
 

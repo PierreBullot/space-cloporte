@@ -2,6 +2,7 @@ import pygame
 
 
 class Interface:
+    """Handles all the interface elements. Stores them in a dictionary."""
     def __init__(self, screen, font):
         self.screen = screen
         self.font = font
