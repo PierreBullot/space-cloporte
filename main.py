@@ -54,6 +54,7 @@ while running:
             if event.key == pygame.K_f:
                 player.dash()
 
+    player.simulate_drag()
     player.rotate()
     player.handle_cooldowns(delta_time)
 

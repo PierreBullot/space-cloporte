@@ -12,7 +12,14 @@ class Player:
         self.max_speed = 0
         self.speed_factor = 1
         self.max_speed_factor = 1
+        self.drag = 1
         self.skills = {}
+
+    def simulate_drag(self):
+        self.drag = 1 + (self.speed * self.speed_factor) / 343000
+        self.speed *= 1 / self.drag
+        self.adjust_speed_factor()
+        self.update_max_speed()
 
     def rotate(self):
         self.sprite_angle -= self.speed * self.speed_factor
