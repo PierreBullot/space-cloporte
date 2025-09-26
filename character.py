@@ -25,17 +25,10 @@ class Player:
         # La nouvelle image n'a pas la même taille, donc les coordonnées doivent être ajustées.
         # Détails : https://stackoverflow.com/questions/4183208/how-do-i-rotate-an-image-around-its-center-using-pygame
         self.rotated_position = self.rotated_sprite.get_rect(center=self.sprite.get_rect(topleft=self.rectangle.topleft).center)
-        if self.speed * self.speed_factor > 10:
-            self.add_acceleration_effect()
+        if self.speed * self.speed_factor > 20:
+            self.skills["dash"].add_acceleration_effect(self.rotated_position, self.rectangle.width)
 
-    def add_acceleration_effect(self):
-        time_since_dashing = 1 - self.skills["dash"].cooldown_status
-        if time_since_dashing < 0.2:
-            self.rotated_position[0] +=  self.rectangle.width / 2 * time_since_dashing
-        elif time_since_dashing < 1:
-            self.rotated_position[0] += self.rectangle.width / 2 * (1 - time_since_dashing)
-
-    def update_speed(self):
+    def dash(self):
         self.speed = self.skills["dash"].use_skill(self.speed)
         self.adjust_speed_factor()
         self.update_max_speed()
@@ -94,3 +87,10 @@ class Dash(Skill):
 
     def reduce_cooldown(self, time):
         self.cooldown_status -= time
+
+    def add_acceleration_effect(self, position, dash_length):
+        time_since_dashing = 1 - self.cooldown_status
+        if time_since_dashing < 0.2:
+            position[0] +=  dash_length / 2 * time_since_dashing
+        elif time_since_dashing < 1:
+            position[0] += dash_length / 2 * (1 - time_since_dashing)
