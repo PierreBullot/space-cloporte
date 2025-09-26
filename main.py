@@ -4,6 +4,7 @@ import config
 import character
 import interface
 import scenery
+import obstacles
 
 pygame.init()
 pygame.font.init()
@@ -42,6 +43,11 @@ game_interface.interface_elements["dash_bar"] = interface.SkillStatus(player.ski
                                                                       config.DASH_BAR_HEIGHT
                                                                       )
 
+sound_barrier_rectangle = pygame.Rect(config.SCREEN_WIDTH * 2, 0, config.SOUND_BARRIER_WIDTH, config.SCREEN_HEIGHT)
+sound_barrier_sprite = pygame.image.load(config.SOUND_BARRIER_SPRITE_PATH)
+sound_barrier_sprite = pygame.transform.scale(sound_barrier_sprite, (config.SOUND_BARRIER_WIDTH, config.SCREEN_HEIGHT))  # Redimensionner à la taille du mur
+sound_barrier = obstacles.SoundBarrier(sound_barrier_rectangle, sound_barrier_sprite, config.SOUND_BARRIER_SPEED)
+
 
 # --- Boucle principale ---
 running = True
@@ -58,6 +64,8 @@ while running:
     player.rotate()
     player.handle_cooldowns(delta_time)
 
+    sound_barrier.update_position(player.speed * player.speed_factor)
+
     # DESSIN
         # background
     screen.fill(config.BACKGROUND_COLOR)
@@ -65,6 +73,7 @@ while running:
     background.render(surf=screen)
 
     screen.blit(player.rotated_sprite, player.rotated_position)  # On dessine l’image à la position du joueur
+    screen.blit(sound_barrier.sprite, sound_barrier.rectangle)  # On dessine l’image à la position du joueur
     game_interface.render_elements()
     secondary_interface.render_elements()
 

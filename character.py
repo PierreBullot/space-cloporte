@@ -16,7 +16,7 @@ class Player:
         self.skills = {}
 
     def simulate_drag(self):
-        self.drag = 1 + (self.speed * self.speed_factor) / 343000
+        self.drag = 1 + (self.speed * self.speed_factor) / 70000000
         self.speed *= 1 / self.drag
         self.adjust_speed_factor()
         self.update_max_speed()
