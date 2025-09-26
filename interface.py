@@ -48,6 +48,28 @@ class SpeedMeter(InterfaceElement):
         target_surface.blit(rendered_meter, self.position)
 
 
+class SpeedMax(InterfaceElement):
+    def __init__(self, target_player, position, speed_units, text_color):
+        super().__init__(position, text_color=text_color)
+        self.followed_player = target_player
+        self.speed_units = speed_units
+
+    def update(self):
+        if self.followed_player.max_speed_factor > 1000000:
+            speed_unit = self.speed_units["1000000"]
+            displayed_speed = self.followed_player.max_speed * (self.followed_player.max_speed_factor / 1000000)
+        else:
+            displayed_speed = self.followed_player.max_speed
+            speed_unit = self.speed_units[str(self.followed_player.max_speed_factor)]
+
+        displayed_speed = round(displayed_speed, 2)
+        self.text = f"MAX : {displayed_speed} {speed_unit}"
+
+    def render(self, target_surface, target_font):
+        rendered_meter = target_font.render(self.text, False, self.text_color)
+        target_surface.blit(rendered_meter, self.position)
+
+
 class SkillStatus(InterfaceElement):
     def __init__(self, target_skill, position, length, height):
         super().__init__(position)
