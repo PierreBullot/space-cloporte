@@ -44,6 +44,10 @@ game_interface.interface_elements["dash_bar"] = interface.SkillStatus(player.ski
                                                                       config.DASH_BAR_HEIGHT
                                                                       )
 
+game_interface.interface_elements["altimeter"] = interface.Altimeter(player,
+                                                                     config.ALTIMETER_POSITION,
+                                                                     config.ALTIMETER_TEXT_COLOR)
+
 # --- Initialize obstacles ---
 sound_barrier_rectangle = pygame.Rect(config.SCREEN_WIDTH * 2, 0, config.SOUND_BARRIER_WIDTH, config.SCREEN_HEIGHT)
 sound_barrier_sprite = pygame.image.load(config.SOUND_BARRIER_SPRITE_PATH)

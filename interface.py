@@ -1,5 +1,7 @@
 import pygame
 
+from config import LENGTH_UNITS
+
 
 class Interface:
     """Handles all the interface elements. Stores them in a dictionary."""
@@ -135,3 +137,37 @@ class SkillStatus(InterfaceElement):
         pygame.draw.rect(target_surface, "blue", self.duration_rectangle)
         pygame.draw.rect(target_surface, "dark grey", self.cooling_rectangle)
         pygame.draw.rect(target_surface, "green", self.ready_rectangle)
+
+
+class Altimeter(InterfaceElement):
+    """Element d'interface pour afficher l'altitude du personnage."""
+    def __init__(self, target_player, position, text_color):
+        """Initialisation de l'élément: nécéssite l'instance de personnage"""
+        super().__init__(position, text_color)
+        self.player= target_player
+        self.mantisse:float     # valeur numérique de l'altitude
+        self.unit:str           # unité/ordre de grandeur de l'altitude
+
+    def __str__(self):
+        return f"Altitude: {self.mantisse}{self.unit}"
+
+    def update(self):
+        """Update the altimeter value from the character altitude"""
+        # adjusting unit and value to the order of magnitude
+        if self.player.altitude>=1000000 :
+            self.unit=LENGTH_UNITS[1000000] # int(ie6) -> Km
+            self.mantisse= self.player.altitude/1000000
+        elif self.player.altitude>=1000 :
+            self.unit=LENGTH_UNITS[1000]    # int(1e3) -> m
+            self.mantisse=self.player.altitude/1000
+        else:
+            self.unit=LENGTH_UNITS[1]       # 1 -> mm
+            self.mantisse = self.player.altitude
+
+        # rounding the float to avoid screen-spanning number
+        self.mantisse= round(self.mantisse, 2)
+
+    def render(self, target_surface, target_font):
+        """Add the Altimeter to the screen"""
+        to_render_text = target_font.render(str(self), False, self.text_color)
+        target_surface.blit(to_render_text, self.position)

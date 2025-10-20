@@ -14,14 +14,20 @@ PLAYER_SPRITE_PATH = "./images/player-new-precise.png"
 INITIAL_DASH_COOLDOWN = 1
 
 # --- Interface ---
+LENGTH_UNITS = {1: "mm", int(1e3): "m", int(1e6): "Km"}
+SPEED_UNITS = {"1": "mm/s", "1000": "m/s", "1000000": "km/s"}
+
 SPEED_METER_POSITION = (SCREEN_WIDTH / 2 - PLAYER_SIZE, 0)
 SPEED_MAX_POSITION = (SCREEN_WIDTH / 2 - (PLAYER_SIZE - FONT_SIZE), FONT_SIZE + 7)
-SPEED_UNITS = {"1": "mm/s", "1000": "m/s", "1000000": "km/s"}
 INITIAL_SPEED_COLOR = "black"
 
 DASH_BAR_POSITION = (10, 690)
 DASH_BAR_LENGTH = 100
 DASH_BAR_HEIGHT = 20
+
+# Altimeter interface rendering variable
+ALTIMETER_POSITION = (5, 5)
+ALTIMETER_TEXT_COLOR = "white"
 
 # --- Obstacles ---
 SOUND_BARRIER_SPEED = 343000
