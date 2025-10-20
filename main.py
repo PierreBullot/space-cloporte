@@ -72,7 +72,6 @@ while running:
 
     # DISPLAY
         # background
-    screen.fill(config.BACKGROUND_COLOR)
     background.update(deltax=player.speed * player.speed_factor)
     background.render(surf=screen)
 

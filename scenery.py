@@ -1,28 +1,27 @@
+import config
 from pygame import Color, Surface, SurfaceType, image
 
 
-class Skybox:
-    def __init__(self):
-        """Initialise une skybox avec des couleurs d'altitudes prédéfinis."""
-        # Always at least 2 boundaries: the bounds of playing field (here, 0. and Infinity)
-        self.bdry = ("surface", "tropopause", "stratopause",
-                         "mésopause", "thermopause", "Universe Wall")
-        self.bdry_alti = (0., 12., 50., 85., 700., float("Infinity")) # in km
-        self.bdry_colour = (
-            (00, 181, 255), # "surface": "deepskyblue" or "#00bfff"
-            (77, 84, 160), # "tropopause": HEX=#7784A0
-            (5, 16, 50),  # "stratopause": "Deep blue"
-            (0, 8, 32),  # "mesopause": "near space-black"
-            (0, 2, 16), # "thermopause": "space-black"}
-            (0, 0, 0)  # "end of the universe": "Abyss"
-        )
 
-        self.alti = 0.
+class Skybox:
+    def __init__(self, world_name:str = config.WORLD_NAMES[0]):
+        """Initialise une skybox avec des couleurs d'altitudes prédéfinis."""
+        # Background Data Fetching and preparation
+        background_data =  config.BACKGROUND_WORLDS_DATA[world_name]
+        self.bdry_name = background_data["BDRY_NAME"]
+        self.bdry_alti = background_data["BDRY_ALTI"]
+        self.bdry_color = background_data["BDRY_COLOR"]
+
+        # Initialisation of positional variable
+        self.alti = self.bdry_alti[0]
         self.layer = 0
         self.max_layer = len(self.bdry_alti) - 2 # layer(0,1,2,3) for 5 boundary
-        self.curr_bdry = self.bdry_alti[self.layer]
+        self.prev_bdry = self.bdry_alti[self.layer]
         self.next_bdry = self.bdry_alti[self.layer+1]
-        self.color = Color(self.bdry_colour[self.layer])
+        # Initialisation of color variable
+        self.curr_bdry_color = self.bdry_color[self.layer]
+        self.next_bdry_color = self.bdry_color[self.layer+1]
+        self.color = Color(self.bdry_color[self.layer])
 
     def skybox_color(self) -> Color:
         """ Give the color to use for sky depending of altitude
@@ -33,12 +32,12 @@ class Skybox:
         color_gradient: rgb previous bdry colour,  RGB next bdry colour
         current_colour= (r, g, b) + alti_gradient*(R-r, G-g, B-b)
         """
-        alti_gradient = 1 - ((self.next_bdry-self.alti) / (self.next_bdry-self.curr_bdry))
-        base_c = self.bdry_colour[self.layer]
-        next_c = self.bdry_colour[self.layer+1]
+        alti_gradient = 1 - ((self.next_bdry-self.alti) / (self.next_bdry - self.prev_bdry))
+        prev_c = self.curr_bdry_color
+        next_c = self.next_bdry_color
         current_c = [0,0,0]
         for i in (0,1,2):
-            current_c[i] = base_c[i] + int(alti_gradient * (next_c[i]-base_c[i]))
+            current_c[i] = prev_c[i] + int(alti_gradient * (next_c[i]-prev_c[i]))
         return Color(current_c)
 
 
@@ -49,7 +48,7 @@ class Skybox:
         then the sky color if not in last layer"""
         while self.alti > self.next_bdry:
             self.layer += 1
-            self.curr_bdry = self.next_bdry
+            self.prev_bdry = self.next_bdry
             self.next_bdry = self.bdry_alti[self.layer+1]
         if self.layer < self.max_layer:
             self.color.update(self.skybox_color())
@@ -60,12 +59,13 @@ class Skybox:
 class MovingBackground:
     """Gestion de l'image d'arrière-plan, mouvement et "wrapping" """
 
-    def __init__(self, img_path:str="images/bg-plaine.jpg"):
+    def __init__(self, img_path:str="images/bg-plaine.jpg") -> None:
         """"Initialisation of scrollable background"""
         self.img = image.load(img_path)
         self.img = Surface.convert(self.img) # For perfomance and screen compatibility
         self.width = self.img.get_width()
         self.height = self.img.get_height()
+
 
         # In pygame, origin (ie: 0,0) is on top left on screen,
         # screen end on bottom right at (scr.width, scr.height).

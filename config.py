@@ -1,10 +1,10 @@
 """Configuration variables"""
+from pygame.examples.midi import BACKGROUNDCOLOR
 
 # --- Screen and font ---
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 720
 FPS = 60
-BACKGROUND_COLOR = "sky blue"
 FONT_NAME = "Arial bold"
 FONT_SIZE = 30
 
@@ -27,3 +27,23 @@ DASH_BAR_HEIGHT = 20
 SOUND_BARRIER_SPEED = 343000
 SOUND_BARRIER_WIDTH = 60
 SOUND_BARRIER_SPRITE_PATH = "./images/sound-barrier.jpg"
+
+
+# --- Background ---
+WORLD_NAMES:tuple = ("EARTH",)
+# Always at least 2 boundaries: the bounds of playing field (here, 0. and Infinity)
+BACKGROUND_WORLDS_DATA=dict(
+    EARTH= dict(
+        BDRY_NAME= ("surface", "tropopause", "stratopause",
+                    "mésopause", "thermopause", "Universe Wall"),
+        BDRY_ALTI= (0., 12., 50., 85., 700., float("Infinity")), # in km
+        BDRY_COLOR= (
+            (00, 181, 255), # "surface": "deepskyblue" or "#00bfff"
+            (77, 84, 160), # "tropopause": HEX=#7784A0
+            (5, 16, 50),  # "stratopause": "Deep blue"
+            (0, 8, 32),  # "mesopause": "near space-black"
+            (0, 2, 16), # "thermopause": "space-black"}
+            (0, 0, 0)  # "end of the universe": "Abyss",
+        )
+    )
+)
