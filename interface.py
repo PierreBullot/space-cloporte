@@ -85,61 +85,43 @@ class SkillStatus(InterfaceElement):
         self.followed_skill = target_skill
         self.length = length
         self.height = height
+        self.duration_rectangle = None
         self.cooling_rectangle = None
-        self.optimum_rectangle = None
-        self.late_rectangle = None
-        self.missed_rectangle = None
+        self.ready_rectangle = None
         self.text = f"Dash :"
 
     def update(self):
         self.text = f"Dash :"
-        if self.followed_skill.cooldown_status > 0:
+        if self.followed_skill.duration_status > 0:
+            duration_ratio = self.followed_skill.duration_status / self.followed_skill.base_duration
+            self.duration_rectangle = pygame.Rect(self.position[0],
+                                                  self.position[1],
+                                                  self.length * duration_ratio,
+                                                  self.height
+                                                  )
+            self.cooling_rectangle = pygame.Rect(self.duration_rectangle.right,
+                                                 self.position[1],
+                                                 self.length * (1 - duration_ratio),
+                                                 self.height
+                                                 )
+            self.ready_rectangle = pygame.Rect(0, 0, 0, 0)
+        elif self.followed_skill.cooldown_status > 0:
             cooldown_ratio = self.followed_skill.cooldown_status / self.followed_skill.cooldown
+            self.duration_rectangle = pygame.Rect(0, 0, 0, 0)
             self.cooling_rectangle = pygame.Rect(self.position[0],
                                                  self.position[1],
                                                  self.length * cooldown_ratio,
                                                  self.height
                                                  )
-            self.optimum_rectangle = pygame.Rect(self.cooling_rectangle.right,
-                                                 self.position[1],
-                                                 self.length * (1 - cooldown_ratio),
-                                                 self.height
-                                                 )
-            self.late_rectangle = pygame.Rect(0, 0, 0, 0)
-            self.missed_rectangle = pygame.Rect(0, 0, 0, 0)
-        elif self.followed_skill.cooldown_status > -5:
-            optimum_ratio = 1 - self.followed_skill.cooldown_status / -5
-            self.cooling_rectangle = pygame.Rect(0, 0, 0, 0)
-            self.optimum_rectangle = pygame.Rect(self.position[0],
-                                                 self.position[1],
-                                                 self.length * optimum_ratio,
-                                                 self.height
-                                                 )
-            self.late_rectangle = pygame.Rect(self.optimum_rectangle.right,
-                                              self.position[1],
-                                              self.length * (1 - optimum_ratio),
-                                              self.height
-                                              )
-            self.missed_rectangle = pygame.Rect(0, 0, 0, 0)
-        elif self.followed_skill.cooldown_status > -14:
-            late_ratio = 1 - (self.followed_skill.cooldown_status + 5) / -9
-            self.cooling_rectangle = pygame.Rect(0, 0, 0, 0)
-            self.optimum_rectangle = pygame.Rect(0, 0, 0, 0)
-            self.late_rectangle = pygame.Rect(self.position[0],
-                                              self.position[1],
-                                              self.length * late_ratio,
-                                              self.height
-                                              )
-            self.missed_rectangle = pygame.Rect(self.late_rectangle.right,
-                                                self.position[1],
-                                                self.length * (1 - late_ratio),
-                                                self.height
-                                                )
+            self.ready_rectangle = pygame.Rect(self.cooling_rectangle.right,
+                                               self.position[1],
+                                               self.length * (1 - cooldown_ratio),
+                                               self.height
+                                               )
         else:
+            self.duration_rectangle = pygame.Rect(0, 0, 0, 0)
             self.cooling_rectangle = pygame.Rect(0, 0, 0, 0)
-            self.optimum_rectangle = pygame.Rect(0, 0, 0, 0)
-            self.late_rectangle = pygame.Rect(0, 0, 0, 0)
-            self.missed_rectangle = pygame.Rect(self.position[0],
+            self.ready_rectangle = pygame.Rect(self.position[0],
                                               self.position[1],
                                               self.length,
                                               self.height
@@ -150,7 +132,6 @@ class SkillStatus(InterfaceElement):
         skill_name_position = (self.position[0], self.position[1] - target_font.get_height())
         target_surface.blit(rendered_skill_name, skill_name_position)
 
+        pygame.draw.rect(target_surface, "blue", self.duration_rectangle)
         pygame.draw.rect(target_surface, "dark grey", self.cooling_rectangle)
-        pygame.draw.rect(target_surface, "green", self.optimum_rectangle)
-        pygame.draw.rect(target_surface, "orange", self.late_rectangle)
-        pygame.draw.rect(target_surface, "red", self.missed_rectangle)
+        pygame.draw.rect(target_surface, "green", self.ready_rectangle)

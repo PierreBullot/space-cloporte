@@ -10,7 +10,7 @@ FONT_SIZE = 30
 
 # --- Player ---
 PLAYER_SIZE = 120
-PLAYER_SPRITE_PATH = "./images/player-new.png"
+PLAYER_SPRITE_PATH = "./images/player-new-precise.png"
 INITIAL_DASH_COOLDOWN = 1
 
 # --- Interface ---

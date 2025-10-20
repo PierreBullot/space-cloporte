@@ -63,9 +63,9 @@ while running:
                 player.dash()
 
     # PLAYER
-    player.simulate_drag()
+    player.update_speed()
     player.rotate()
-    player.handle_cooldowns(delta_time)
+    player.handle_time(delta_time)
 
     # OBSTACLES
     sound_barrier.update_position(player.speed * player.speed_factor)
