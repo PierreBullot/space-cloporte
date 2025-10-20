@@ -41,11 +41,12 @@ class Skybox:
         return Color(current_c)
 
 
-    def update(self) -> None:
+    def update(self, altitude:float) -> None:
         """ Update the skybox with the new altitude
 
         update current layer first if needed,
         then the sky color if not in last layer"""
+        self.alti = altitude
         while self.alti > self.next_bdry:
             self.layer += 1
             self.prev_bdry = self.next_bdry
@@ -53,7 +54,11 @@ class Skybox:
         if self.layer < self.max_layer:
             self.color.update(self.skybox_color())
 
+    def render(self, surf: SurfaceType) -> None:
+        """Fill screen(background) with current color
 
+        it fill the background if called before other rendering"""
+        surf.fill(self.color)
 
 
 class MovingBackground:

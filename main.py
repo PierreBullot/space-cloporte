@@ -11,7 +11,7 @@ pygame.font.init()
 
 # --- Initialize screen, background and clock ---
 screen: pygame.SurfaceType = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
-background = scenery.MovingBackground()
+background = scenery.Skybox()
 clock = pygame.time.Clock()
 
 # --- Initialize player ---
@@ -63,6 +63,7 @@ while running:
                 player.dash()
 
     # PLAYER
+    player.update_altitude(delta_time)
     player.update_speed()
     player.rotate()
     player.handle_time(delta_time)
@@ -72,7 +73,7 @@ while running:
 
     # DISPLAY
         # background
-    background.update(deltax=player.speed * player.speed_factor)
+    background.update(player.altitude)
     background.render(surf=screen)
 
         # moving elements

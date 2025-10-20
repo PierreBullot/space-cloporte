@@ -36,7 +36,8 @@ BACKGROUND_WORLDS_DATA=dict(
     EARTH= dict(
         BDRY_NAME= ("surface", "tropopause", "stratopause",
                     "mésopause", "thermopause", "Universe Wall"),
-        BDRY_ALTI= (0., 12., 50., 85., 700., float("Infinity")), # in km
+        # Alti is NOT in Km, but in mm because of conversion difficulty from speed otherwise ...
+        BDRY_ALTI= (0., 12e6, 50e6, 85e6, 700e6, float("Infinity")),
         BDRY_COLOR= (
             (00, 181, 255), # "surface": "deepskyblue" or "#00bfff"
             (77, 84, 160), # "tropopause": HEX=#7784A0

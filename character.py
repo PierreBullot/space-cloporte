@@ -18,6 +18,13 @@ class Player:
         self.acceleration_duration = 0  # Gradually diminishes to 0 over time, while increasing acceleration.
         self.skills = {}
 
+        self.altitude=0.    # Altitude in mm
+
+    def update_altitude(self, delta_time):
+        """As it says on the tin !"""
+        self.altitude += (self.speed*self.speed_factor * delta_time)
+
+
     def update_speed(self):
         """Called every game loop, calculates the new speed and updates the max speed if needed."""
         self.speed *= 1 + self.acceleration / 100
