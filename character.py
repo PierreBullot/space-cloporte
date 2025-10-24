@@ -58,7 +58,7 @@ class Player:
 
         The actual speed can be calculated by multiplying self.speed and self.speed_factor.
         """
-        if self.speed > 1000:
+        if self.speed >= 1000:
             self.speed /= 1000
             self.speed_factor *= 1000
         elif self.speed < 1 and self.speed_factor >= 1000:
