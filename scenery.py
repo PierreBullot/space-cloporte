@@ -16,10 +16,10 @@ class Skybox:
         self.alti = self.bdry_alti[0]
         self.layer = 0
         self.max_layer = len(self.bdry_alti) - 2 # layer(0,1,2,3) for 5 boundary
-        self.prev_bdry = self.bdry_alti[self.layer]
-        self.next_bdry = self.bdry_alti[self.layer+1]
+        self.prev_bdry_alti = self.bdry_alti[self.layer]
+        self.next_bdry_alti = self.bdry_alti[self.layer + 1]
         # Initialisation of color variable
-        self.curr_bdry_color = self.bdry_color[self.layer]
+        self.prev_bdry_color = self.bdry_color[self.layer]
         self.next_bdry_color = self.bdry_color[self.layer+1]
         self.color = Color(self.bdry_color[self.layer])
 
@@ -32,8 +32,8 @@ class Skybox:
         color_gradient: rgb previous bdry colour,  RGB next bdry colour
         current_colour= (r, g, b) + alti_gradient*(R-r, G-g, B-b)
         """
-        alti_gradient = 1 - ((self.next_bdry-self.alti) / (self.next_bdry - self.prev_bdry))
-        prev_c = self.curr_bdry_color
+        alti_gradient = 1 - ((self.next_bdry_alti - self.alti) / (self.next_bdry_alti - self.prev_bdry_alti))
+        prev_c = self.prev_bdry_color
         next_c = self.next_bdry_color
         current_c = [0,0,0]
         for i in (0,1,2):
@@ -47,10 +47,12 @@ class Skybox:
         update current layer first if needed,
         then the sky color if not in last layer"""
         self.alti = altitude
-        while self.alti > self.next_bdry:
+        while self.alti > self.next_bdry_alti:
             self.layer += 1
-            self.prev_bdry = self.next_bdry
-            self.next_bdry = self.bdry_alti[self.layer+1]
+            self.prev_bdry_alti = self.next_bdry_alti
+            self.next_bdry_alti = self.bdry_alti[self.layer + 1]
+            self.prev_bdry_color = self.bdry_color[self.layer]
+            self.next_bdry_color = self.bdry_color[self.layer+1]
         if self.layer < self.max_layer:
             self.color.update(self.skybox_color())
 
