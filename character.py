@@ -75,7 +75,8 @@ class Player:
         # Updates the acceleration and acceleration duration.
         if self.acceleration_duration > 0:
             speed_delta = config.SOUND_BARRIER_SPEED - self.speed * self.speed_factor
-            self.acceleration += current_time - current_time / speed_delta**0.5
+            speed_delta = max([speed_delta, 0.000001])
+            self.acceleration += current_time - current_time / speed_delta**0.1
             self.acceleration_duration -= current_time
         else:
             if self.acceleration > 0:

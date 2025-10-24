@@ -120,4 +120,16 @@ class PlayerTests(unittest.TestCase):
             print(f"❌ Erreur dans Player.update_max_speed() → {e}")
             raise
 
+    def test_update_speed(self):
+        """Checks that the speed changes as expected over time."""
+        try:
+            self.player.update_speed()
+            self.assertEqual(self.player.speed, 0, "La vitesse initiale devrait être 0")
+            self.assertEqual(self.player.speed_factor, 1, "Le facteur initial devrait être 1")
+
+            print("✅ Tous les tests Player.update_max_speed() sont OK")
+        except AssertionError as e:
+            print(f"❌ Erreur dans Player.update_max_speed() → {e}")
+            raise
+
 
