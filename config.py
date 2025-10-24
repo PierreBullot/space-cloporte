@@ -1,7 +1,7 @@
 """Configuration variables"""
 from pygame.examples.midi import BACKGROUNDCOLOR
 
-DEBUG = True
+DEBUG = False
 
 # --- Screen and font ---
 SCREEN_WIDTH = 1200
