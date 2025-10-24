@@ -49,7 +49,7 @@ class Player:
         self.rotated_position[0] += min(offset, self.rectangle.width)
 
     def dash(self):
-        self.speed += 1     # Acceleration is a multiplication, so nothing happens if the speed stays at 0.
+        self.speed += 0.01     # Acceleration is a multiplication, so nothing happens if the speed stays at 0.
         self.acceleration_duration = self.skills["dash"].use_skill()
 
     def adjust_speed_factor(self):
@@ -74,15 +74,16 @@ class Player:
         """Handles effects tied to time, like skill cooldowns."""
         # Updates the acceleration and acceleration duration.
         if self.acceleration_duration > 0:
-            speed_delta = config.SOUND_BARRIER_SPEED - self.speed * self.speed_factor
-            speed_delta = max([speed_delta, 0.000001])
-            self.acceleration += current_time - current_time / speed_delta**0.1
+            speed_delta = 1 - ((self.speed * self.speed_factor) / config.SOUND_BARRIER_SPEED)
+            self.acceleration += current_time
+            self.acceleration = min([speed_delta, self.acceleration])
             self.acceleration_duration -= current_time
         else:
             if self.acceleration > 0:
                 self.acceleration -= current_time
-            elif self.acceleration > 0 - self.drag / 100:
-                self.acceleration -= current_time / 10
+                self.acceleration = max([0, self.acceleration])
+            # elif self.acceleration > 0 - self.drag / 100:
+            #     self.acceleration -= current_time / 10
 
         # Updates all skills' cooldowns.
         for skill in self.skills.values():

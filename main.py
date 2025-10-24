@@ -23,7 +23,7 @@ player = character.Player(player_rectangle, player_sprite)
 player.skills["dash"] = character.Dash(config.INITIAL_DASH_COOLDOWN)
 
 if config.DEBUG:
-    player.speed = 100000
+    player.speed = 300000
 
 # --- Initialize interface ---
 main_font = pygame.font.SysFont(config.FONT_NAME, config.FONT_SIZE)
