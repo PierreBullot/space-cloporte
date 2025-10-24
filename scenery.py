@@ -4,6 +4,7 @@ from pygame import Color, Surface, SurfaceType, image
 
 
 class Skybox:
+
     def __init__(self, world_name:str = config.WORLD_NAMES[0]):
         """Initialise une skybox avec des couleurs d'altitudes prédéfinis."""
         # Background Data Fetching and preparation
@@ -64,12 +65,12 @@ class Skybox:
 
 
 class MovingBackground:
-    """Gestion de l'image d'arrière-plan, mouvement et "wrapping" """
+    """Gestion de l'image d'arrière-plan, mouvement et "wrapping"."""
 
     def __init__(self, img_path:str="images/bg-plaine.jpg") -> None:
-        """"Initialisation of scrollable background"""
+        """"Initialisation of scrollable background."""
         self.img = image.load(img_path)
-        self.img = Surface.convert(self.img) # For perfomance and screen compatibility
+        self.img = Surface.convert(self.img)    # For perfomance and screen compatibility.
         self.width = self.img.get_width()
         self.height = self.img.get_height()
 
@@ -86,7 +87,7 @@ class MovingBackground:
         self.ypos_cloney = self.posy + self.height
 
     def update(self, deltax:int=0, deltay:int=0) -> None:
-        """"update background with possible movement,
+        """Update background with possible movement,
         as if you moved delta in a direction, now with wrapping !
         """
         # Modulo to avoid crash a crash (on Pierre pc), and avoid ginourmous nb
@@ -95,15 +96,15 @@ class MovingBackground:
         self.posx -= deltax;     self.xpos_clonex -= deltax
         self.posy -= deltay;     self.ypos_cloney -= deltay
 
-        # if the anchor leave the origin, it is swapped with the opposites clones from the origin
-        # Circling back on the horizontal
+        # If the anchor leave the origin, it is swapped with the opposites clones from the origin
+        # Circling back on the horizontal.
         if self.posx > 0:
             self.xpos_clonex = self.posx
             self.posx -= self.width
         elif self.xpos_clonex <= 0:
             self.posx = self.xpos_clonex
             self.xpos_clonex += self.width
-        # Circling back on the vertical
+        # Circling back on the vertical.
         if self.posy > 0:
             self.ypos_cloney = self.posy
             self.posy -= self.height
@@ -113,9 +114,9 @@ class MovingBackground:
 
     def render(self, surf: SurfaceType) -> None:
         """Put the four identical surface,
-        starting from the one always on screen (always under the origin)"""
-        surf.blit(self.img, dest=(self.posx, self.posy))                  # anchor
-        surf.blit(self.img, dest=(self.posx, self.ypos_cloney))           # clone on the right
-        surf.blit(self.img, dest=(self.xpos_clonex, self.posy))           # clone under
-        surf.blit(self.img, dest=(self.xpos_clonex, self.ypos_cloney))    # clone under and on the right (in the corner)
+        starting from the one always on screen (always under the origin)."""
+        surf.blit(self.img, dest=(self.posx, self.posy))                  # Anchor.
+        surf.blit(self.img, dest=(self.posx, self.ypos_cloney))           # Clone on the right.
+        surf.blit(self.img, dest=(self.xpos_clonex, self.posy))           # Clone under.
+        surf.blit(self.img, dest=(self.xpos_clonex, self.ypos_cloney))    # Clone under and on the right (in the corner).
 
